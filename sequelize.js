@@ -1,4 +1,6 @@
-const { Sequelize } = require('sequelize');
+// ORM配置文件
+
+const {Sequelize} = require('sequelize');
 
 // 创建 Sequelize 实例
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
@@ -17,4 +19,4 @@ async function testConnection() {
 }
 
 // 导出 sequelize 实例和测试连接函数
-module.exports = { sequelize, testConnection };
+module.exports = {sequelize, testConnection};

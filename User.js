@@ -1,5 +1,5 @@
 const {DataTypes} = require('sequelize');
-const {sequelize} = require('./sequelize.js');
+const {sequelize} = require('./sequelize');
 
 // 定义用户模型
 const User = sequelize.define('UserInfo', {

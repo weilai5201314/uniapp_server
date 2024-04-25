@@ -78,8 +78,9 @@ app.post('/login', async (req, res) => {
 });
 
 // 启动服务器
+const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
     console.log(('Server is starting...'))
-    console.log(`Server is starting on http://localhost:${PORT}`);
+    console.log(`Server is starting on http://${HOST}:${PORT}`);
 });

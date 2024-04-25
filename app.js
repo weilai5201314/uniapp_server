@@ -3,6 +3,7 @@ const app = express();
 const axios = require('axios');
 require('dotenv').config();
 const mysql = require('mysql2');
+const {syncModel} = require("./User");
 
 // 创建数据库连接
 const connection = mysql.createConnection({
@@ -32,6 +33,9 @@ app.get('/', (req, res) => {
 // 登录接口
 app.post('/login', async (req, res) => {
     try {
+        // 初始化数据库表格
+        await syncModel()
+
         // 获取前端发送过来的用户登录凭证 code
         const code = req.body.code;
 
@@ -50,16 +54,18 @@ app.post('/login', async (req, res) => {
             session_key
         });
 
-        // 在此处将用户信息存储到数据库中，例如：
-        const sql = `INSERT INTO UserInfo (openid, sessionkey)
-                     VALUES (?, ?)`;
+        // 在此处将用户信息存储到数据库中，如果openid已经存在，则更新session_key和更新时间
+        const sql = `INSERT INTO UserInfo (openid, session_key, createdat, updatedat)
+                     VALUES (?, ?, NOW(), NOW()) ON DUPLICATE KEY
+        UPDATE session_key =
+        VALUES (session_key), updatedAt = NOW()`;
         const values = [openid, session_key];
         connection.query(sql, values, (err, result) => {
             if (err) {
-                console.error('Error inserting user info into database:', err);
+                console.error('Error inserting or updating user info into database:', err);
                 return;
             }
-            console.log('User info inserted into database');
+            console.log('User info inserted or updated into database');
         });
         // 然后关闭连接
         connection.end();

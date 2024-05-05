@@ -3,7 +3,11 @@ const app = express();
 const axios = require('axios');
 require('dotenv').config();
 const mysql = require('mysql2');
-const {syncModel} = require("./User");
+const {syncModel} = require("./src/mysql/User");
+const {syncModel_Product} = require("./src/mysql/Product");
+const {syncModel_ShoppingCart} = require("./src/mysql/ShoppingCart");
+const {syncModel_Order} = require("./src/mysql/Order");
+const {syncModel_Message} = require("./src/mysql/Message");
 
 // 创建数据库连接
 const connection = mysql.createConnection({
@@ -14,13 +18,22 @@ const connection = mysql.createConnection({
 });
 
 // 连接到数据库
-connection.connect((err) => {
+connection.connect(async (err) => {
     if (err) {
         console.error('Error connecting to database:', err);
         return;
     }
-    console.log('Connected to database');
+    console.log('[nodemon] 连接到数据库');
+    // 初始化数据库表格
+    await syncModel();
+    await syncModel_Product();
+    await syncModel_ShoppingCart();
+    await syncModel_Order();
+    await syncModel_Message();
+    console.log('[nodemon] 数据库表格创建成功');
+
 });
+
 
 // 中间件，用于解析请求体中的 JSON 数据
 app.use(express.json());
@@ -33,9 +46,6 @@ app.get('/', (req, res) => {
 // 登录接口
 app.post('/login', async (req, res) => {
     try {
-        // 初始化数据库表格
-        await syncModel()
-
         // 获取前端发送过来的用户登录凭证 code
         const code = req.body.code;
 
@@ -60,18 +70,14 @@ app.post('/login', async (req, res) => {
         UPDATE session_key =
         VALUES (session_key), updatedAt = NOW()`;
         const values = [openid, session_key];
-        connection.query(sql, values, (err, result) => {
+        connection.query(sql, values, (err) => {
             if (err) {
                 console.error('Error inserting or updating user info into database:', err);
                 return;
             }
             console.log('User info inserted or updated into database');
         });
-        // 然后关闭连接
-        connection.end();
     } catch (err) {
-        // 防止未关闭连接
-        connection.end();
         console.error('登录失败：', err);
         res.status(500).send('登录失败');
     }

@@ -3,37 +3,36 @@ const {sequelize} = require('./sequelize');
 
 // 定义用户模型
 const User = sequelize.define('UserInfo', {
-        openid: {
+        Openid: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
         },
-        session_key: {
+        Session_Key: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        nickname: {
+        Token: {
+            type: DataTypes.STRING, // 可以根据需要指定 token 类型
+        },
+        Nickname: {
+            type: DataTypes.STRING(100),
+        },
+        Avatar: {
             type: DataTypes.STRING,
         },
-        avatar: {
-            type: DataTypes.STRING,
-        },
-        gender: {
-            type: DataTypes.TINYINT,
-        },
-        country: {
+        Country: {
             type: DataTypes.STRING(75),
         },
-        province: {
+        Province: {
             type: DataTypes.STRING(75),
         },
-        city: {
+        City: {
             type: DataTypes.STRING(75),
         },
-        language: {
+        Language: {
             type: DataTypes.STRING(10),
         },
-
     },
     {
         freezeTableName: true,

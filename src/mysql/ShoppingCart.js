@@ -1,3 +1,4 @@
+// 3
 const {DataTypes} = require('sequelize');
 const {sequelize} = require('./sequelize');
 
@@ -12,17 +13,31 @@ const ShoppingCart = sequelize.define('ShoppingCart', {
         UserID: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            references: {
+                model: 'Userinfo', // 关联的用户表名称
+                key: 'ID' // 关联的用户表主键
+            },
+            onDelete: 'CASCADE',
         },
         ProductID: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            references: {
+                model: 'Product', // 关联的商品表名称
+                key: 'ProductID' // 关联的商品表主键
+            },
+            onDelete: 'CASCADE',
         },
         Quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 1, // 默认为1
         },
-        // 添加时间等其他字段
+        AddedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW, // 默认为当前时间
+        },
     },
     {
         freezeTableName: true,

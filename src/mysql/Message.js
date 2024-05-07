@@ -1,5 +1,6 @@
 const {DataTypes} = require('sequelize');
 const {sequelize} = require('./sequelize');
+const {User} = require('./User'); // 导入用户模型，以便定义外键关联
 
 // 定义消息模型
 const Message = sequelize.define('Message', {
@@ -7,14 +8,6 @@ const Message = sequelize.define('Message', {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
-    },
-    senderID: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    receiverID: {
-        type: DataTypes.INTEGER,
-        allowNull: false
     },
     content: {
         type: DataTypes.TEXT,
@@ -32,6 +25,21 @@ const Message = sequelize.define('Message', {
 }, {
     freezeTableName: true,
     timestamps: false
+});
+
+// 建立外键关联，并添加 onDelete: 'CASCADE' 约束
+Message.belongsTo(User, {
+    foreignKey: {
+        name: 'senderID',
+        allowNull: false,
+    }, onDelete: 'CASCADE',
+});
+
+Message.belongsTo(User, {
+    foreignKey: {
+        name: 'receiverID',
+        allowNull: false,
+    }, onDelete: 'CASCADE'
 });
 
 // 同步模型到数据库

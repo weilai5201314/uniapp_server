@@ -1,3 +1,4 @@
+// 4
 const {DataTypes} = require('sequelize');
 const {sequelize} = require('./sequelize');
 
@@ -14,7 +15,9 @@ const Order = sequelize.define('Order', {
         references: {
             model: 'userinfo', // 关联的用户表名称
             key: 'ID' // 关联的用户表主键
-        }
+        },
+
+        onDelete: 'CASCADE',
     },
     ProductID: {
         type: DataTypes.INTEGER,
@@ -22,7 +25,8 @@ const Order = sequelize.define('Order', {
         references: {
             model: 'Product', // 关联的商品表名称
             key: 'ProductID' // 关联的商品表主键
-        }
+        },
+        onDelete: 'CASCADE',
     },
     Quantity: {
         type: DataTypes.INTEGER,

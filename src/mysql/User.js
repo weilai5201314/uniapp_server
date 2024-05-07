@@ -1,36 +1,38 @@
+// 1
 const {DataTypes} = require('sequelize');
 const {sequelize} = require('./sequelize');
 
 // 定义用户模型
 const User = sequelize.define('UserInfo', {
-        Openid: {
+        openid: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
         },
-        Session_Key: {
+        session_key: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        Token: {
-            type: DataTypes.STRING, // 可以根据需要指定 token 类型
+        token: {
+            type: DataTypes.STRING(255), // 根据需要指定 token 类型和长度
+            unique: true, // 添加唯一约束
         },
-        Nickname: {
+        nickname: {
             type: DataTypes.STRING(100),
         },
-        Avatar: {
+        avatar: {
             type: DataTypes.STRING,
         },
-        Country: {
+        country: {
             type: DataTypes.STRING(75),
         },
-        Province: {
+        province: {
             type: DataTypes.STRING(75),
         },
-        City: {
+        city: {
             type: DataTypes.STRING(75),
         },
-        Language: {
+        language: {
             type: DataTypes.STRING(10),
         },
     },

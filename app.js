@@ -1,13 +1,16 @@
 const express = require('express');
 const app = express();
-const axios = require('axios');
+require('axios');
 require('dotenv').config();
 const mysql = require('mysql2');
-const {syncModel} = require("./src/mysql/User");
-const {syncModel_Product} = require("./src/mysql/Product");
-const {syncModel_ShoppingCart} = require("./src/mysql/ShoppingCart");
-const {syncModel_Order} = require("./src/mysql/Order");
-const {syncModel_Message} = require("./src/mysql/Message");
+// const {syncModel} = require("./src/mysql/User");
+// const {syncModel_Product} = require("./src/mysql/Product");
+// const {syncModel_ShoppingCart} = require("./src/mysql/ShoppingCart");
+// const {syncModel_Order} = require("./src/mysql/Order");
+// const {syncModel_Message} = require("./src/mysql/Message");
+const controllers = require('./src/controllers/index');
+const {serve, setup} = require("swagger-ui-express");
+const swaggerDocument = require('./config/swagger.json');
 
 // 创建数据库连接
 const connection = mysql.createConnection({
@@ -25,12 +28,12 @@ connection.connect(async (err) => {
     }
     console.log('[nodemon] 连接到数据库');
     // 初始化数据库表格
-    await syncModel();
-    await syncModel_Product();
-    await syncModel_ShoppingCart();
-    await syncModel_Order();
-    await syncModel_Message();
-    console.log('[nodemon] 数据库表格创建成功');
+    // await syncModel();
+    // await syncModel_Product();
+    // await syncModel_ShoppingCart();
+    // await syncModel_Order();
+    // await syncModel_Message();
+    // console.log('[nodemon] 数据库表格创建成功');
 
 });
 
@@ -43,43 +46,29 @@ app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
 
-// 登录接口
-app.post('/login', async (req, res) => {
-    try {
-        // 获取前端发送过来的用户登录凭证 code
-        const code = req.body.code;
+// 注册所有控制器
+for (const controllerPath in controllers) {
+    const routes = controllers[controllerPath];
+    // for (const key in routes) { // 将变量名从 route 改为 key
+        // const route = routes[key];
+        // console.log("Registering routes for controller:", controllerPath);
+        const method = routes.method; // 从 route 改为 key
+        // console.log("Method:", method);
+        const handler = routes.handler;
+        // console.log(method, controllerPath, handler.name);
+        app[method](controllerPath, handler); // 从 route 改为 key
+    // }
+}
 
-        // 获取请求参数
-        const {APP_ID, APP_SECRET} = process.env;
+// 使用官方中间件来提供 Swagger UI
+app.use('/api-docs', serve, setup(swaggerDocument, {
+    swaggerUrl: '/api-docs/swagger.json', // Swagger 规范的路径
+}));
 
-        // 向微信服务器发送请求，换取用户的唯一标识符或 session_key
-        const wxRes = await axios.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${APP_ID}&secret=${APP_SECRET}&js_code=${code}&grant_type=authorization_code`);
-
-        // 解析微信服务器返回的响应数据
-        const {openid, session_key} = wxRes.data;
-        console.log(wxRes.data)
-        // 返回用户信息给前端
-        res.status(200).json({
-            openid,
-            session_key
-        });
-
-        // 在此处将用户信息存储到数据库中，如果openid已经存在，则更新session_key和更新时间
-        const sql = `INSERT INTO UserInfo (openid, session_key, createdat, updatedat)
-                     VALUES (?, ?, NOW(), NOW()) ON DUPLICATE KEY
-        UPDATE session_key =
-        VALUES (session_key), updatedAt = NOW()`;
-        const values = [openid, session_key];
-        connection.query(sql, values, (err) => {
-            if (err) {
-                console.error('Error inserting or updating user info into database:', err);
-                return;
-            }
-            console.log('User info inserted or updated into database');
-        });
-    } catch (err) {
-        console.error('登录失败：', err);
-        res.status(500).send('登录失败');
+// 列出所有路由
+app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+        console.log(`[Route]: ${Object.keys(middleware.route.methods).join(', ')} ${middleware.route.path}`);
     }
 });
 
@@ -87,6 +76,7 @@ app.post('/login', async (req, res) => {
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, HOST, () => {
-    console.log(('Server is starting...'))
-    console.log(`Server is starting on http://${HOST}:${PORT}`);
+    console.log(('[nodemon] Server is starting...'))
+    console.log(`[nodemon] Server is starting on http://${HOST}:${PORT}`);
+    console.log(`[nodemon] swagger is starting on http://${HOST}:${PORT}/api-docs`);
 });

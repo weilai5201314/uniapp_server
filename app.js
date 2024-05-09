@@ -8,7 +8,7 @@ const {syncModel_Product} = require("./src/mysql/Product");
 const {syncModel_ShoppingCart} = require("./src/mysql/ShoppingCart");
 const {syncModel_Order} = require("./src/mysql/Order");
 const {syncModel_Message} = require("./src/mysql/Message");
-const controllers = require('./src/controllers/user');
+// const controllers = require('./src/controllers/user');
 const {serve, setup} = require("swagger-ui-express");
 const swaggerDocument = require('./config/swagger.json');
 
@@ -29,14 +29,30 @@ connection.connect(async (err) => {
         console.error('Error connecting to database:', err);
         return;
     }
+
     console.log('[nodemon] 已连接到数据库');
-    // 初始化数据库表格
-    // await syncModel();
-    // await syncModel_Product();
-    // await syncModel_ShoppingCart();
-    // await syncModel_Order();
-    // await syncModel_Message();
-    console.log('[nodemon] 数据库表格创建成功');
+
+    // 读取 DB_CREATED 环境变量的值
+    const dbCreated = process.env.DB_CREATED === 'true';
+    // 如果 DB_CREATED 为 false，则执行表格创建函数并将 DB_CREATED 设置为 true
+    if (!dbCreated) {
+        try {
+            // 初始化数据库表格
+            await syncModel();
+            await syncModel_Product();
+            await syncModel_ShoppingCart();
+            await syncModel_Order();
+            await syncModel_Message();
+
+            console.log('[nodemon] 数据库表格创建成功');
+            // 修改 DB_CREATED 的值为 true
+            fs.writeFileSync('.env', fs.readFileSync('.env', 'utf8').replace('DB_CREATED=false', 'DB_CREATED=true'));
+
+        } catch (error) {
+            console.error('Error synchronizing database tables:', error);
+        }
+    }
+    console.log('[nodemon] 数据库表格已创建');
 
 });
 

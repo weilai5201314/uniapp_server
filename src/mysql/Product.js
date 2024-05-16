@@ -26,7 +26,13 @@ const Product = sequelize.define('Product', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    Image: {
+    Image1: {
+        type: DataTypes.STRING,
+    },
+    Image2: {
+        type: DataTypes.STRING,
+    },
+    Image3: {
         type: DataTypes.STRING,
     },
     Category: {

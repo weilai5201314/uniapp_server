@@ -40,8 +40,7 @@ const handleLogin = async (req, res) => {
         const sql = `INSERT INTO UserInfo (openid, session_key, createdat, updatedat)
                      VALUES (?, ?, NOW(), NOW())
                      ON DUPLICATE KEY
-                         UPDATE session_key =
-                                    VALUES(session_key),
+                         UPDATE session_key =VALUES(session_key),
                                 updatedAt   = NOW()`;
         const values = [openid, session_key];
         connection.query(sql, values, (err) => {

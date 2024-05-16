@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-// require('axios');
 require('dotenv').config();
 const mysql = require('mysql2');
 const {syncModel} = require("./src/mysql/User");
@@ -8,7 +7,6 @@ const {syncModel_Product} = require("./src/mysql/Product");
 const {syncModel_ShoppingCart} = require("./src/mysql/ShoppingCart");
 const {syncModel_Order} = require("./src/mysql/Order");
 const {syncModel_Message} = require("./src/mysql/Message");
-// const controllers = require('./src/controllers/user');
 const {serve, setup} = require("swagger-ui-express");
 const swaggerDocument = require('./config/swagger.json');
 
@@ -60,9 +58,9 @@ connection.connect(async (err) => {
 // 中间件，用于解析请求体中的 JSON 数据
 app.use(express.json());
 
-// 路由处理程序
+// 路由测试
 app.get('/', (req, res) => {
-    res.send('Hello, World!');
+    res.send('Hello, weilai!');
 });
 
 

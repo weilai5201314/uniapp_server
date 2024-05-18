@@ -69,5 +69,5 @@ async function syncModel() {
 
 // 导出商品模型和同步函数
 // module.exports = {Product, syncModel_Product};
-module.exports = {syncModel};
+module.exports = {Product,syncModel};
 // module.exports = {Product}

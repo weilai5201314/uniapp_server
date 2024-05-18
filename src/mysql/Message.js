@@ -54,5 +54,5 @@ async function syncModel() {
 
 // 导出消息模型和同步函数
 // module.exports = {Message, syncModel_Message};
-module.exports = {syncModel};
+module.exports = {Message,syncModel};
 // module.exports = {Message}

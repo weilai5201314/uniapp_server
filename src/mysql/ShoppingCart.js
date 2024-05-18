@@ -56,5 +56,5 @@ async function syncModel() {
 
 // 导出购物车模型和同步函数
 // module.exports = {ShoppingCart, syncModel_ShoppingCart};
-module.exports = {syncModel};
+module.exports = {ShoppingCart, syncModel};
 // module.exports = {ShoppingCart}

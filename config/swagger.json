@@ -8,17 +8,96 @@
   "servers": [
     {
       "url": "http://localhost:12345",
-      "description": "xxx"
+      "description": "Local Server"
     }
   ],
   "paths": {
     "/login": {
       "post": {
         "summary": "登录接口",
-        "parameters": [],
+        "description": "用于用户登录的接口",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "用户登录凭证"
+                  }
+                },
+                "required": ["code"]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "登录成功"
+          },
+          "500": {
+            "description": "服务器错误"
+          }
+        }
+      }
+    },
+    "/addProduct": {
+      "post": {
+        "summary": "添加商品",
+        "description": "用于添加商品的接口",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "openid": {
+                    "type": "string",
+                    "description": "用户身份标识"
+                  },
+                  "productName": {
+                    "type": "string",
+                    "description": "商品名称"
+                  },
+                  "price": {
+                    "type": "number",
+                    "description": "商品价格"
+                  },
+                  "quantity": {
+                    "type": "number",
+                    "description": "商品数量"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "商品类别"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "商品描述"
+                  },
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "商品图片"
+                  }
+                },
+                "required": ["openid","productName", "price","quantity", "category", "description"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "商品添加成功"
+          },
+          "404": {
+            "description": "用户不存在"
+          },
+          "500": {
+            "description": "服务器错误"
           }
         }
       }

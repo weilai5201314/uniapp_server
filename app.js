@@ -6,8 +6,9 @@ const swaggerDocument = require('./config/swagger.json');
 const {syncModels} = require("./src/mysql/sequelize");
 const fs = require('fs');
 const path = require('path');
-
-
+const cors = require('cors');
+// 允许所有域名跨域访问
+app.use(cors());
 // 中间件，用于解析请求体中的 JSON 数据
 app.use(express.json());
 

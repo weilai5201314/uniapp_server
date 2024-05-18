@@ -7,8 +7,5 @@ module.exports = {
         method: 'post',
         handler: loginController.handleLogin
     },
-    '/signup': {
-        method: 'get',
-        handler: loginController.handleLogin
-    },
+
 };

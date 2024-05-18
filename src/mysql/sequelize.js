@@ -18,5 +18,15 @@ async function testConnection() {
     }
 }
 
+// 同步所有模型
+async function syncModels() {
+    const modelFiles = ['User', 'Product', 'ShoppingCart', 'Order', 'Message']; // 添加所有模型的文件名
+    for (const file of modelFiles) {
+        const model = require(`./${file}`);
+        await model.syncModel(); // 调用每个模型文件中导出的 syncModel 函数
+    }
+    console.log('All models synchronized successfully.');
+}
+
 // 导出 sequelize 实例和测试连接函数
-module.exports = {sequelize, testConnection};
+module.exports = {sequelize, testConnection, syncModels};

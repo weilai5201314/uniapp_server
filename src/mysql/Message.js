@@ -43,7 +43,7 @@ Message.belongsTo(User, {
 });
 
 // 同步模型到数据库
-async function syncModel_Message() {
+async function syncModel() {
     try {
         await Message.sync({alter: true});
         console.log('Message model synchronized successfully.');
@@ -53,4 +53,6 @@ async function syncModel_Message() {
 }
 
 // 导出消息模型和同步函数
-module.exports = {Message, syncModel_Message};
+// module.exports = {Message, syncModel_Message};
+module.exports = {syncModel};
+// module.exports = {Message}

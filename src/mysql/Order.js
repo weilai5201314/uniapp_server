@@ -53,7 +53,7 @@ const Order = sequelize.define('Order', {
 });
 
 // 同步模型到数据库
-async function syncModel_Order() {
+async function syncModel() {
     try {
         await Order.sync({alter: true});
         console.log('Order model synchronized successfully.');
@@ -63,4 +63,6 @@ async function syncModel_Order() {
 }
 
 // 导出订单模型和同步函数
-module.exports = {Order, syncModel_Order};
+// module.exports = {Order, syncModel_Order};
+module.exports = {syncModel};
+// module.exports = {Order}

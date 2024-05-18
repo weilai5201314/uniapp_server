@@ -53,3 +53,5 @@ async function syncModel() {
 
 // 导出用户模型和同步函数
 module.exports = {User, syncModel};
+// module.exports = {syncModel};
+// module.exports = {User};

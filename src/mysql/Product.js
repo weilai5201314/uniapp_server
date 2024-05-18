@@ -58,7 +58,7 @@ Product.belongsTo(User, {
 });
 
 // 同步模型到数据库
-async function syncModel_Product() {
+async function syncModel() {
     try {
         await Product.sync({alter: true});
         console.log('Product model synchronized successfully.');
@@ -68,4 +68,6 @@ async function syncModel_Product() {
 }
 
 // 导出商品模型和同步函数
-module.exports = {Product, syncModel_Product};
+// module.exports = {Product, syncModel_Product};
+module.exports = {syncModel};
+// module.exports = {Product}

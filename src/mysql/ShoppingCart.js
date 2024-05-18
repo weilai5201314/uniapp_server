@@ -45,7 +45,7 @@ const ShoppingCart = sequelize.define('ShoppingCart', {
     });
 
 // 同步模型到数据库
-async function syncModel_ShoppingCart() {
+async function syncModel() {
     try {
         await ShoppingCart.sync({alter: true});
         console.log('ShoppingCart model synchronized successfully.');
@@ -55,4 +55,6 @@ async function syncModel_ShoppingCart() {
 }
 
 // 导出购物车模型和同步函数
-module.exports = {ShoppingCart, syncModel_ShoppingCart};
+// module.exports = {ShoppingCart, syncModel_ShoppingCart};
+module.exports = {syncModel};
+// module.exports = {ShoppingCart}

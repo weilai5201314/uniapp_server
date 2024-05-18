@@ -1,18 +1,7 @@
-// src/controllers/login.js
+// // src/controllers/login.js
 
 const axios = require('axios');
-const mysql = require('mysql2');
-
-// 创建数据库连接
-const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-});
-
-// 连接到数据库
-connection.connect();
+const {User} = require('../../mysql/User');
 
 // 登录接口处理函数
 const handleLogin = async (req, res) => {
@@ -28,7 +17,26 @@ const handleLogin = async (req, res) => {
 
         // 解析微信服务器返回的响应数据
         const {openid, session_key} = wxRes.data;
-        console.log(wxRes.data)
+        console.log(wxRes.data);
+
+        // 在此处将用户信息存储到数据库中，如果 openid 已经存在，则更新 session_key 和更新时间
+        const [user, created] = await User.findOrCreate({
+            where: {openid},
+            defaults: {
+                session_key,
+                createdAt: new Date(),
+                updatedAt: new Date()
+            }
+        });
+
+        if (!created) {
+            // 更新用户的 session_key 和 updatedAt
+            await User.update(
+                { session_key, updatedAt: new Date() },
+                { where: { id: user.id } }
+            );
+        }
+
 
         // 返回用户信息给前端
         res.status(200).json({
@@ -36,20 +44,6 @@ const handleLogin = async (req, res) => {
             session_key
         });
 
-        // 在此处将用户信息存储到数据库中，如果openid已经存在，则更新session_key和更新时间
-        const sql = `INSERT INTO UserInfo (openid, session_key, createdat, updatedat)
-                     VALUES (?, ?, NOW(), NOW())
-                     ON DUPLICATE KEY
-                         UPDATE session_key =VALUES(session_key),
-                                updatedAt   = NOW()`;
-        const values = [openid, session_key];
-        connection.query(sql, values, (err) => {
-            if (err) {
-                console.error('Error inserting or updating user info into database:', err);
-                return;
-            }
-            console.log('User info inserted or updated into database');
-        });
     } catch (err) {
         console.error('登录失败：', err);
         res.status(500).send('登录失败');

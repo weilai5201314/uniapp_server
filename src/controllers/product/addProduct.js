@@ -17,7 +17,7 @@ const addProduct = async (req, res) => {
         // 创建商品记录
         const newProduct = await Product.create({
             Title: productName,
-            Description: description||"无",
+            Description: description || null,
             Price: price,
             Category: category,
             // Image1: images[0] || null,

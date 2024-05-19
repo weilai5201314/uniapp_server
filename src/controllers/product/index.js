@@ -1,11 +1,15 @@
 // src/controllers/product/index.js
 
-const productController = require('./addProduct');
-
+const addProduct = require('./addProduct');
+const getProduct = require('./getProduct');
 module.exports = {
     '/addProduct': {
         method: 'post',
-        handler: productController.addProduct
+        handler: addProduct.addProduct
     },
+    '/getAllProducts': {
+        method: 'get',
+        handler: getProduct.getAllProducts
+    }
 
 };

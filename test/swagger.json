@@ -27,7 +27,9 @@
                     "description": "用户登录凭证"
                   }
                 },
-                "required": ["code"]
+                "required": [
+                  "code"
+                ]
               }
             }
           }
@@ -84,7 +86,14 @@
                     "description": "商品图片"
                   }
                 },
-                "required": ["openid","productName", "price","quantity", "category", "description"]
+                "required": [
+                  "openid",
+                  "productName",
+                  "price",
+                  "quantity",
+                  "category",
+                  "description"
+                ]
               }
             }
           }
@@ -98,6 +107,24 @@
           },
           "500": {
             "description": "服务器错误"
+          }
+        }
+      }
+    },
+    "/getAllProducts": {
+      "get": {
+        "summary": "获取商品信息",
+        "description": "用于获取所有商品信息的接口",
+        "requestBody": {
+          "content": {
+            "application/json": {
+
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "商品信息获取成功"
           }
         }
       }

@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const {serve, setup} = require("swagger-ui-express");
-const swaggerDocument = require('./config/swagger.json');
+const swaggerDocument = require('./test/swagger.json');
 const {syncModels} = require("./src/mysql/sequelize");
 const fs = require('fs');
 const path = require('path');
@@ -44,7 +44,7 @@ app.use('/api-docs', serve, setup(swaggerDocument, {
 // 列出所有路由
 app._router.stack.forEach((middleware) => {
     if (middleware.route) {
-        console.log(`[Route]: ${Object.keys(middleware.route.methods).join(', ')} ${middleware.route.path}`);
+        console.log(`[路由]: ${Object.keys(middleware.route.methods).join(', ')} ${middleware.route.path}`);
     }
 });
 
@@ -67,14 +67,14 @@ app.listen(PORT, HOST, () => {
             try {
                 // 初始化数据库表格
                 syncModels();
-                console.log('[nodemon] 数据库表格创建成功');
+                console.log('[mysql] 数据库表格创建成功');
                 // 修改 DB_CREATED 的值为 true
                 fs.writeFileSync('.env', fs.readFileSync('.env', 'utf8').replace('DB_CREATED=false', 'DB_CREATED=true'));
             } catch (error) {
                 console.error('Error synchronizing database tables:', error);
             }
         }
-        console.log('[nodemon] 数据库表格已创建');
+        console.log('[mysql] 数据库表格已创建');
     } catch (err) {
         console.error(err);
     }

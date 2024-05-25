@@ -2,7 +2,6 @@
 
 const addProduct = require('./addProduct');
 const getProduct = require('./getProduct');
-const uploadImage = require('./uploadImage');
 
 module.exports = {
     '/addProduct': {
@@ -13,8 +12,5 @@ module.exports = {
         method: 'get',
         handler: getProduct.getAllProducts
     },
-    '/uploadImage': {
-        method: 'post',
-        handler: uploadImage.uploadImage
-    }
+
 };

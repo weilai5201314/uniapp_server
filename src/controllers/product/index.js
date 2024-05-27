@@ -1,7 +1,7 @@
 // src/controllers/product/index.js
 
 const addProduct = require('./addProduct');
-const getProduct = require('./getProduct');
+const getProduct = require('./getAllProduct');
 
 module.exports = {
     '/addProduct': {

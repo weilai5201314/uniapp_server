@@ -118,7 +118,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-
             }
           }
         },
@@ -162,6 +161,41 @@
           },
           "404": {
             "description": "用户或商品不存在"
+          },
+          "500": {
+            "description": "服务器错误"
+          }
+        }
+      }
+    },
+    "/getShoppingCart": {
+      "post": {
+        "summary": "获取购物车信息",
+        "description": "用于获取购物车的接口",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "openid": {
+                    "type": "string",
+                    "description": "用户身份标识"
+                  }
+                },
+                "required": [
+                  "openid"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "购物车获取成功"
+          },
+          "404": {
+            "description": "用户不存在"
           },
           "500": {
             "description": "服务器错误"

@@ -8,20 +8,25 @@ const User = sequelize.define('UserInfo', {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
+            comment:"用户openID"
         },
         session_key: {
             type: DataTypes.STRING,
             allowNull: false,
+            comment:"微信接口返回的密钥"
         },
         token: {
             type: DataTypes.STRING(255), // 根据需要指定 token 类型和长度
             unique: true, // 添加唯一约束
+            comment:"开发者自行生成的token,可用jwt"
         },
         nickname: {
             type: DataTypes.STRING(100),
+            comment:"用户名"
         },
         avatar: {
             type: DataTypes.STRING,
+            comment:"用户头像url"
         },
         country: {
             type: DataTypes.STRING(75),

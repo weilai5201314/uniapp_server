@@ -7,11 +7,13 @@ const Message = sequelize.define('Message', {
     messageID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        comment:"自增序列"
     },
     content: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
+        comment:"聊天内容"
     },
     messageType: {
         type: DataTypes.STRING,
@@ -20,7 +22,8 @@ const Message = sequelize.define('Message', {
     sendTime: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: DataTypes.NOW
+        defaultValue: DataTypes.NOW,
+        comment:"发送时间"
     }
 }, {
     freezeTableName: true,

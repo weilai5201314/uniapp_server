@@ -7,7 +7,8 @@ const Order = sequelize.define('Order', {
     OrderID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        comment:"自增序列"
     },
     UserID: {
         type: DataTypes.INTEGER,
@@ -16,6 +17,7 @@ const Order = sequelize.define('Order', {
             model: 'userinfo', // 关联的用户表名称
             key: 'ID' // 关联的用户表主键
         },
+        comment:"用户表ID",
 
         onDelete: 'CASCADE',
     },
@@ -27,25 +29,30 @@ const Order = sequelize.define('Order', {
             key: 'ProductID' // 关联的商品表主键
         },
         onDelete: 'CASCADE',
+        comment:"商品表ID"
     },
     Quantity: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        comment:"下单数量"
     },
     OrderStatus: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: '待付款' // 默认订单状态为待付款
+        defaultValue: '待付款', // 默认订单状态为待付款
+        comment:"订单状态"
     },
     OrderTime: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: DataTypes.NOW // 默认下单时间为当前时间
+        defaultValue: DataTypes.NOW, // 默认下单时间为当前时间
+        comment:"下单时间"
     },
     // 可以添加支付时间、完成时间等其他字段
     PayTime: {
         type: DataTypes.DATE,
         allowNull: false,
+        comment:"付款时间"
     }
 }, {
     freezeTableName: true,

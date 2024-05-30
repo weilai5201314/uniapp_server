@@ -8,6 +8,7 @@ const ShoppingCart = sequelize.define('ShoppingCart', {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
+            comment:"自增序列"
         },
         // 将 UserID 字段放在前面
         UserID: {
@@ -18,6 +19,7 @@ const ShoppingCart = sequelize.define('ShoppingCart', {
                 key: 'ID' // 关联的用户表主键
             },
             onDelete: 'CASCADE',
+            comment:"用户表ID"
         },
         ProductID: {
             type: DataTypes.INTEGER,
@@ -27,16 +29,19 @@ const ShoppingCart = sequelize.define('ShoppingCart', {
                 key: 'ProductID' // 关联的商品表主键
             },
             onDelete: 'CASCADE',
+            comment:"product表ID"
         },
         Quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
             defaultValue: 1, // 默认为1
+            comment:"添加数量"
         },
         AddedAt: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW, // 默认为当前时间
+            comment:"添加时间"
         },
     },
     {

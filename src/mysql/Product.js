@@ -9,25 +9,31 @@ const Product = sequelize.define('Product', {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        comment:"自增序列"
     },
     Title: {
         type: DataTypes.STRING,
         allowNull: false,
+        comment:"商品标题"
     },
     Description: {
         type: DataTypes.TEXT,
         allowNull: true,
+        comment:"商品描述"
     },
     Price: {
         type: DataTypes.FLOAT,
         allowNull: false,
+        comment:"商品价格"
     },
     Quantity: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        comment:"商品数量"
     },
     Image1: {
         type: DataTypes.STRING,
+        comment:"商品图片1,后面同理"
     },
     Image2: {
         type: DataTypes.STRING,
@@ -37,11 +43,13 @@ const Product = sequelize.define('Product', {
     },
     Category: {
         type: DataTypes.STRING,
+        comment:"商品种类"
     },
     ShowTime: {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW, // 设置当前时间作为默认值
+        comment:"上架时间"
     },
 }, {
     freezeTableName: true,

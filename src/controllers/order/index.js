@@ -2,6 +2,7 @@
 
 const addShoppingCart = require('./addShoppingCart');
 const getShoppingCart = require("./getShoppingCart");
+const deleteShoppingCart = require("./deleteShopping");
 
 module.exports = {
     '/addShoppingCart': {
@@ -11,6 +12,10 @@ module.exports = {
     '/getShoppingCart': {
         method: 'post',
         handler: getShoppingCart.getShoppingCart
+    },
+    '/deleteShoppingCart': {
+        method: 'delete',
+        handler: deleteShoppingCart.deleteShoppingCart
     }
 
 

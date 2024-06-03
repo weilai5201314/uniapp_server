@@ -202,6 +202,46 @@
           }
         }
       }
+    },
+    "/deleteShoppingCart": {
+      "delete": {
+        "summary": "删除购物车",
+        "description": "用于删除购物车的接口",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "openid": {
+                    "type": "string",
+                    "description": "用户身份标识"
+                  },
+                  "productID": {
+                    "type": "string",
+                    "description": "商品标识"
+                  }
+                },
+                "required": [
+                  "openid",
+                  "productID"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "购物车添加成功"
+          },
+          "404": {
+            "description": "用户或商品不存在"
+          },
+          "500": {
+            "description": "服务器错误"
+          }
+        }
+      }
     }
   }
 }

@@ -14,3 +14,24 @@ create database uniapp; # 同步 .env 文件里 DB_NAME
 pnpm i 
 pnpm start
 ```
+
+
+项目结构
+```
+│   .env    配置文件
+│   .gitignore
+│   app.js  项目启动入口
+│   package.json    
+│   pnpm-lock.yaml
+│   README.md   说明
+│
+├───data    静态文件目录
+│   └───images
+│
+├───src 代码资源
+│   ├───controllers 接口代码
+│   └───mysql   squelize配置
+│
+└───test
+        swagger.json    调试工具
+```
